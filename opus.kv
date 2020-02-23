@@ -1,21 +1,16 @@
-# kivy: 1.11.1
-
-<MainPage>:
-    cols: 1
-    canvas:
-        Color:
-            rgba: (0.12, 0.12, 0.12, 1)
-        Rectangle:
-            size: self.size
-            pos: self.pos
+<main_page>:
     GridLayout:
-        cols:1
+        cols: 1
         size: root.width, root.height
+
         Label:
             text: "OPUS - what have you read today?"
+            color: 1, 1, 1, 1
+
         Button:
             text: "the same thing"
-            padding_x: (50, 50)
+            color: 1, 1, 1, 1
+
         Button:
-            text: "something else"
-            padding_x: (50, 50)
+            text: "something new"
+            color: 1, 1, 1, 1
