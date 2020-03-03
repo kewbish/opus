@@ -1,5 +1,5 @@
+from csv import reader
 from datetime import datetime
-from json import load, dump
 import kivy
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -18,13 +18,17 @@ class Opus(App):
         return MainPage()
 
     def same_thing(self):
-        with open("data.json", "r") as x:
-            d = load(x)
-        now = datetime.now()
-        date = datetime.strftime(now, "%B %d %Y")
-        d["Bonus Poetry"]["date_ended"] = date
-        with open("data.json", "w") as x:
-            dump(d, x)
+        rates = []
+        with open("data.csv", "r+") as x:
+            r = reader(x)
+            d = next(r)
+            alls = x.readlines()
+            x.writelines(alls[1:])
+            date = datetime.now()
+            t = datetime.strftime(date, " %B %d %Y")
+            rates = [d[0], d[1], d[2], t]
+            x.seek(0, 0)
+            x.write(",".join(rates))
 
 
 if __name__ == '__main__':
