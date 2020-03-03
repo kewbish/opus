@@ -1,23 +1,49 @@
 # kivy: 1.11.1
-# import same_thing opus.same_thing
+# import same_thing_button opus.same_thing_button
+# import something_else_button opus.something_else_button
 
 <MainPage>:
-    cols: 1
-    canvas:
-        Color:
-            rgba: (0.12, 0.12, 0.12, 1)
-        Rectangle:
-            size: self.size
-            pos: self.pos
     GridLayout:
-        cols:1
-        size: root.width, root.height
-        Label:
-            text: "OPUS - what have you read today?"
-        Button:
-            text: "the same thing"
-            padding_x: (50, 50)
-            on_press: app.same_thing()
-        Button:
-            text: "something else"
-            padding_x: (50, 50)
+        cols: 1
+        canvas:
+            Color:
+                rgba: (0.12, 0.12, 0.12, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        GridLayout:
+            cols:1
+            size: root.width, root.height
+            Label:
+                text: "OPUS - what have you read today?"
+            Button:
+                text: "the same thing"
+                padding_x: (0.05, 0.05)
+                on_press: app.same_thing_button()
+            Button:
+                text: "something else"
+                padding_x: (0.05, 0.05)
+                on_press: root.manager.current = "something_else_page"
+
+<SomethingElsePage>:
+    AnchorLayout:
+        Accordion:
+            orientation: 'vertical'
+            AccordionItem:
+                title: "which book?"
+                collapse: False
+                TextInput:
+                    text: "fill me!"
+                    size_hint_y: None
+                    height: 30
+            AccordionItem:
+                title: "the author"
+                TextInput:
+                    text: "yep me"
+                    size_hint_y: None
+                    height: 30
+            AccordionItem:
+                title: "all done?"
+                Button:
+                    text: "add to OPUS"
+                    on_press: root.manager.current = "main_page"
