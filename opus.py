@@ -49,6 +49,9 @@ class Opus(App):
         with open("data.csv", "r+") as x:
             x.seek(0, 0)
 
+    def parse_text(self, value):
+        return value[1]
+
 
 if __name__ == '__main__':
     Opus().run()
