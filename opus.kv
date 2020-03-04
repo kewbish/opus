@@ -1,7 +1,4 @@
 # kivy: 1.11.1
-# import same_thing_button opus.same_thing_button
-# import something_else_button opus.something_else_button
-# import parse_text opus.parse_text
 
 <MainPage>:
     GridLayout:
@@ -19,7 +16,7 @@
                 text: "OPUS - what have you read today?"
             Button:
                 text: "the same thing"
-                on_press: app.same_thing_button()
+                on_press: root.same_thing_button()
             Button:
                 text: "something else"
                 on_press: root.manager.current = "something_else_page"
@@ -37,7 +34,7 @@
                     size_hint_y: None
                     height: 30
                     id: book
-                    on_text: app.parse_text(args)
+                    on_text: root.parse_book(args)
             AccordionItem:
                 title: "the author"
                 TextInput:
@@ -49,4 +46,4 @@
                 title: "all done?"
                 Button:
                     text: "add to OPUS"
-                    on_press: root.manager.current = "main_page"
+                    on_press: root.enter_data()
