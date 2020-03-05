@@ -19,7 +19,7 @@
                 on_press: root.same_thing_button()
             Button:
                 text: "something else"
-                on_press: root.manager.current = "something_else_page"
+                on_press: root.something_else_button()
 
 <SomethingElsePage>:
     GridLayout:
@@ -27,6 +27,7 @@
         Accordion:
             orientation: 'vertical'
             AccordionItem:
+                id: book_item
                 title: "which book?"
                 collapse: False
                 TextInput:
