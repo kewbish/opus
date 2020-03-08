@@ -1,8 +1,9 @@
 # kivy: 1.11.1
 
 <MainPage>:
-    GridLayout:
-        cols: 1
+    BoxLayout:
+        orientation: "vertical"
+        size_y:
         canvas:
             Color:
                 rgba: (0.12, 0.12, 0.12, 1)
@@ -10,41 +11,58 @@
                 size: self.size
                 pos: self.pos
         GridLayout:
-            cols:1
-            size: root.width, root.height
+            cols: 1
+            Image:
+                source: "Opus.png"
             Label:
                 text: "OPUS - what have you read today?"
+                size_y: 3
+                size_hint_y: 0.1
+        GridLayout:
+            cols: 1
+            padding: 50
             Button:
                 text: "the same thing"
                 on_press: root.same_thing_button()
             Button:
                 text: "something else"
                 on_press: root.something_else_button()
+            Button:
+                text: "send opus to email"
+                on_press: root.send_email_button()
 
 <SomethingElsePage>:
-    GridLayout:
+    AnchorLayout:
         cols: 1
-        Accordion:
-            orientation: 'vertical'
-            AccordionItem:
-                id: book_item
-                title: "which book?"
-                collapse: False
-                TextInput:
-                    text: "fill me!"
-                    size_hint_y: None
-                    height: 30
-                    id: book
-                    on_text: root.parse_book(args)
-            AccordionItem:
-                title: "the author"
-                TextInput:
-                    text: "yep me"
-                    size_hint_y: None
-                    height: 30
-                    id: author
-            AccordionItem:
-                title: "all done?"
-                Button:
-                    text: "add to OPUS"
-                    on_press: root.enter_data()
+        canvas:
+            Color:
+                rgba: (0.12, 0.12, 0.12, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        padding: 50, 10
+        BoxLayout:
+            size: 0.5, 1
+            size_hint_y: 0.7
+            Accordion:
+                orientation: 'vertical'
+                AccordionItem:
+                    id: book_item
+                    title: "which book?"
+                    collapse: False
+                    TextInput:
+                        text: "fill me!"
+                        id: book
+                        on_text: root.parse_book(args)
+                        padding: 25
+                AccordionItem:
+                    title: "the author"
+                    TextInput:
+                        text: "yep me"
+                        id: author
+                        padding: 25
+                AccordionItem:
+                    title: "all done?"
+                    Button:
+                        text: "add to OPUS"
+                        on_press: root.enter_data()

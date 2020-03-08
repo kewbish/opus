@@ -1,14 +1,19 @@
 from csv import reader
 from datetime import datetime
-import kivy
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from kivy import require
 from kivy.app import App
-from kivy.properties import ObjectProperty
-from kivy.uix.gridlayout import GridLayout
+from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from os import chdir, path
 from requests import get
+from smtplib import SMTP_SSL
+from ssl import create_default_context
 
-kivy.require('1.11.1')
+require('1.11.1')
+Window.size = (432, 768)
 
 
 class MainPage(Screen):
@@ -30,6 +35,27 @@ class MainPage(Screen):
             ids.book_item.collapse = False
         self.manager.current = "something_else_page"
 
+    def send_email_button(self):
+        email = "mymail@mail.com"  # Change this to your email.
+        password = "verysecurepassword"  # Change this to your password.
+        context = create_default_context()
+        with SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(email, password)
+            message = MIMEMultipart()
+            message['From'] = email
+            message['To'] = email
+            message['Subject'] = "OPUS - Your OPUS is here."
+            attachment = open("data.csv", "rb")
+            p = MIMEBase('application', 'octet-stream')
+            p.set_payload((attachment).read())
+            encoders.encode_base64(p)
+            p.add_header('Content-Disposition', "attachment; \
+                filename= OPUS.csv")
+            message.attach(p)
+            message = message.as_string()
+            server.sendmail(email, email, message)
+            server.quit()
+
 
 class SomethingElsePage(Screen):
 
@@ -38,7 +64,6 @@ class SomethingElsePage(Screen):
         d = get(f"https://www.googleapis.com/books/v1/volumes?q={b}").\
             json()
         a = d['items'][0]['volumeInfo']['authors'][0]
-        auth = ObjectProperty()
         self.ids.author.text = a
 
     def enter_data(self):
